@@ -39,8 +39,10 @@ the cursor pattern the Aggregator allows you to process a single window of resul
 The Downloader is purely responsible for downloading the `*.torrent` files  associated with the Great 78 collection. There's no filtering or anything fancy, just straight up GET requests. Once we've aggregated them all through our previously described steps we download the torrents to a relative directory `torrents/`, or another that you can specify.
 
 
-Feel free to fork off this or do your own thing; I don't really care. Please don't expect any updates to this script, or any future development. I made this in an afternoon one weekend because I heard about Sony This software is licensed under the assumption that if you ever meet me IRL you'll buy me a beer for these efforts, which are low. :)
+Feel free to fork off this or do your own thing; I don't really care. Please don't expect any updates to this script, or any future development. I made this in an afternoon one weekend because I heard about Sony et al suing the archive. Not cool. 
 
-<br/><br/><br/><br/>
+This software is licensed under the assumption that if you ever meet me IRL you'll buy me a beer for these efforts, which are low. :)
+
+<br/><br/><br/><br/><br/><br/>
 
 ###### RIP Aaron Swartz
