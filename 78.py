@@ -261,7 +261,7 @@ if __name__ == "__main__":
     setup_env(args)
 
     log.basicConfig(
-        format='%(asctime)s: %(message)s',
+        format=args.log_format,
         level=args.log
     )
 
