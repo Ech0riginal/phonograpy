@@ -124,7 +124,7 @@ class Aggregator:
                 self.__dict__ = j
         else:
             log.error(f"Cache file missing")
-            
+        
         return self
     
     def aggregate(self, cache: str = None) -> List[str]:
@@ -213,7 +213,7 @@ class Downloader:
         except Exception as _:
             if retry > 0:
                 log.warning(f"Retrying {id}")
-                Downloader.__sleep() # Sleep a little longer
+                Downloader.__sleep()  # Sleep a little longer
                 Downloader._download(uri, retry - 1)
             else:
                 log.error(f"Failed to download {uri}")
@@ -254,20 +254,14 @@ if __name__ == "__main__":
     args = arguments()
     
     setup_env(args)
-
+    
     log.basicConfig(
         format=args.log_format,
         level=args.log
     )
     
-    agg = Aggregator(mode=AggMode.Iterative)
-    chunk = agg.aggregate(cache=args.cache)
+    agg = Aggregator(mode=AggMode.Full)
     
-    while len(chunk) > 0:
-        chunk = agg.aggregate(cache=args.cache)
-        
-        
-        
+    identifiers = agg.aggregate(cache=args.cache)
     
-    # Downloader(identifiers, workers=args.workers)\
-    #     .download()
+    Downloader(identifiers, workers=args.workers).download()
