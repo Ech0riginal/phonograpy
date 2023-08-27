@@ -151,9 +151,6 @@ class Aggregator:
     
     def __load(self) -> List[str]:
         """ Requests the span from Archive and returns all found identifiers. """
-        if self._cursor is None:
-            return []
-        
         response = curl(self.__url())
         content = response.content
         j = loads(content)
@@ -170,9 +167,6 @@ class Aggregator:
                 dump(self.__dict__, f)
     
     def __load_iter(self, cache: str = None) -> List[str]:
-        if cache is not None:
-            cache = f"{cache}_{self._cursor_count}"
-            
         results = self.__load()
         self._buffer = self._buffer + results
         self.__cache(cache)
@@ -219,6 +213,7 @@ class Downloader:
         except Exception as _:
             if retry > 0:
                 log.warning(f"Retrying {id}")
+                Downloader.__sleep() # Sleep a little longer
                 Downloader._download(uri, retry - 1)
             else:
                 log.error(f"Failed to download {uri}")
@@ -264,10 +259,15 @@ if __name__ == "__main__":
         format=args.log_format,
         level=args.log
     )
-
-    identifiers = Aggregator(mode=AggMode.Full)\
-        .cached(args.cache)\
-        .aggregate(cache=args.cache)
     
-    Downloader(identifiers, workers=args.workers)\
-        .download()
+    agg = Aggregator(mode=AggMode.Iterative)
+    chunk = agg.aggregate(cache=args.cache)
+    
+    while len(chunk) > 0:
+        chunk = agg.aggregate(cache=args.cache)
+        
+        
+        
+    
+    # Downloader(identifiers, workers=args.workers)\
+    #     .download()
